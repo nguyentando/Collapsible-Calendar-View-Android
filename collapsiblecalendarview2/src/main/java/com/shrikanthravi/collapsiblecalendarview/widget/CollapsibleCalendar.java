@@ -31,14 +31,16 @@ import androidx.annotation.NonNull;
 
 public class CollapsibleCalendar extends UICalendar {
 
-    private CalendarAdapter  mAdapter;
+    private static final int ANIMATION_DURATION = 400;
+
+    private CalendarAdapter mAdapter;
     private CalendarListener mListener;
 
     private boolean expanded = false;
 
     private int mInitHeight = 0;
 
-    private Handler mHandler            = new Handler();
+    private Handler mHandler = new Handler();
     private boolean mIsWaitingForUpdate = false;
 
     private int mCurrentWeekIndex;
@@ -59,72 +61,36 @@ public class CollapsibleCalendar extends UICalendar {
     protected void init(Context context) {
         super.init(context);
 
-
         int size = getEventDotSize();
         CalendarAdapter adapter = new CalendarAdapter(context);
         adapter.setEventDotSize(getEventDotSize());
         setAdapter(adapter);
 
-
-        // bind events
         mLayoutRoot.setOnTouchListener(getSwipeTouchListener());
-        mBtnPrevMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prevMonth();
-            }
-        });
 
-        mBtnNextMonth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextMonth();
-            }
-        });
+        mBtnPrevMonth.setOnClickListener(v -> prevMonth());
+        mBtnNextMonth.setOnClickListener(v -> nextMonth());
 
-        mBtnPrevWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                prevWeek();
-            }
-        });
-
-        mBtnNextWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                nextWeek();
-            }
-        });
+        mBtnPrevWeek.setOnClickListener(v -> prevWeek());
+        mBtnNextWeek.setOnClickListener(v -> nextWeek());
 
         expandIconView.setState(ExpandIconView.MORE, true);
-
-
-        expandIconView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (expanded) {
-                    collapse(400);
-                } else {
-                    expand(400);
-                }
+        expandIconView.setOnClickListener(view -> {
+            if (expanded) {
+                collapse(ANIMATION_DURATION);
+            } else {
+                expand(ANIMATION_DURATION);
             }
         });
 
-        this.post(new Runnable() {
-            @Override
-            public void run() {
-                collapseTo(mCurrentWeekIndex);
-            }
-        });
-
-
+        this.post(() -> collapseTo(mCurrentWeekIndex));
     }
 
     private OnSwipeTouchListener getSwipeTouchListener() {
         return new OnSwipeTouchListener(getContext()) {
-            public void onSwipeTop() {
-                collapse(400);
 
+            public void onSwipeTop() {
+                collapse(ANIMATION_DURATION);
             }
 
             public void onSwipeLeft() {
@@ -144,9 +110,8 @@ public class CollapsibleCalendar extends UICalendar {
             }
 
             public void onSwipeBottom() {
-                expand(400);
+                expand(ANIMATION_DURATION);
             }
-
         };
     }
 
@@ -158,12 +123,7 @@ public class CollapsibleCalendar extends UICalendar {
 
         if (mIsWaitingForUpdate) {
             redraw();
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    collapseTo(mCurrentWeekIndex);
-                }
-            });
+            mHandler.post(() -> collapseTo(mCurrentWeekIndex));
             mIsWaitingForUpdate = false;
             if (mListener != null) {
                 mListener.onDataUpdate();
@@ -190,7 +150,7 @@ public class CollapsibleCalendar extends UICalendar {
                 txtDay.setTextColor(getTextColor());
 
                 // set today's item
-                if (isToady(day)) {
+                if (isToday(day)) {
                     txtDay.setBackgroundDrawable(getTodayItemBackgroundDrawable());
                     txtDay.setTextColor(getTodayItemTextColor());
                 }
@@ -392,7 +352,7 @@ public class CollapsibleCalendar extends UICalendar {
         return day.equals(getSelectedItem());
     }
 
-    public boolean isToady(@NonNull LocalDate day) {
+    public boolean isToday(@NonNull LocalDate day) {
         return LocalDate.now().equals(day);
     }
 
@@ -414,7 +374,7 @@ public class CollapsibleCalendar extends UICalendar {
         for (int i = 0; i < mAdapter.getCount(); i++) {
             LocalDate day = mAdapter.getItem(i);
 
-            if (isToady(day)) {
+            if (isToday(day)) {
                 position = i;
                 break;
             }
