@@ -34,7 +34,7 @@ public class CalendarAdapter {
     private List<Event>     mEventList = new ArrayList<>();
 
     public CalendarAdapter(Context context) {
-        this.mCal = LocalDate.now().withDayOfMonth(1);
+        mCal = LocalDate.now().withDayOfMonth(1);
         mInflater = LayoutInflater.from(context);
 
         refresh();

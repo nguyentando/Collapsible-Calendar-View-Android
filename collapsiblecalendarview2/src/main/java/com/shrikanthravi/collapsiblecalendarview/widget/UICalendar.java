@@ -24,10 +24,12 @@ import org.threeten.bp.LocalDate;
 
 public abstract class UICalendar extends LinearLayout {
 
-    // State
+    // States
     public static final int STATE_EXPANDED   = 0;
     public static final int STATE_COLLAPSED  = 1;
     public static final int STATE_PROCESSING = 2;
+
+    // Event sizes
     public static final int EVENT_DOT_BIG = 0;
     public static final int EVENT_DOT_SMALL = 1;
 
