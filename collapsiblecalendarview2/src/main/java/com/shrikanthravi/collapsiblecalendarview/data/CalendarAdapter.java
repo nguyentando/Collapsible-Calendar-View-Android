@@ -26,6 +26,7 @@ import static org.threeten.bp.Month.JANUARY;
 public class CalendarAdapter {
 
     private DayOfWeek mFirstDayOfWeek = LocalDate.now().getDayOfWeek();
+    private int mState = UICalendar.STATE_COLLAPSED;
     private LocalDate mCalendar;
     private LayoutInflater mInflater;
     private int mEventDotSize = UICalendar.EVENT_DOT_BIG;
@@ -82,6 +83,12 @@ public class CalendarAdapter {
 
     public void addEvent(Event event) {
         mEventList.add(event);
+    }
+
+    public void setState(int state) {
+        if (mState == state) return;
+        mState = state;
+        updateDayViews();
     }
 
     public void refresh() {
@@ -160,6 +167,21 @@ public class CalendarAdapter {
 
             mItemList.add(day);
             mViewList.add(view);
+        }
+
+        updateDayViews();
+    }
+
+    private void updateDayViews() {
+        for (int i = 0; i < mItemList.size(); i++) {
+            LocalDate date = mItemList.get(i);
+            if (date.getMonthValue() != mCalendar.getMonthValue()) {
+                // this is not a day in current month
+                boolean show = mState == UICalendar.STATE_COLLAPSED;
+                View view = mViewList.get(i);
+                view.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+                view.setClickable(show);
+            }
         }
     }
 }

@@ -498,6 +498,9 @@ public class CollapsibleCalendar extends UICalendar {
         if (state == STATE_EXPANDED) {
             expanded = true;
         }
+        if (mAdapter != null) {
+            mAdapter.setState(state);
+        }
     }
 
     public void select(LocalDate day) {
