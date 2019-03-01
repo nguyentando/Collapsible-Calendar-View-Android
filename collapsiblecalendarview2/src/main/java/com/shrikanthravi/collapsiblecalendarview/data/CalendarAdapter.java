@@ -26,7 +26,7 @@ import static org.threeten.bp.Month.JANUARY;
 public class CalendarAdapter {
 
     private DayOfWeek mFirstDayOfWeek = LocalDate.now().getDayOfWeek();
-    private LocalDate mCal;
+    private LocalDate mCalendar;
     private LayoutInflater mInflater;
     private int mEventDotSize = UICalendar.EVENT_DOT_BIG;
 
@@ -35,7 +35,7 @@ public class CalendarAdapter {
     private List<Event> mEventList = new ArrayList<>();
 
     public CalendarAdapter(Context context) {
-        mCal = LocalDate.now().withDayOfMonth(1);
+        mCalendar = LocalDate.now().withDayOfMonth(1);
         mInflater = LayoutInflater.from(context);
 
         refresh();
@@ -55,15 +55,15 @@ public class CalendarAdapter {
     }
 
     public void nextMonth() {
-        mCal = mCal.plusMonths(1);
+        mCalendar = mCalendar.plusMonths(1);
     }
 
     public void previousMonth() {
-        mCal = mCal.minusMonths(1);
+        mCalendar = mCalendar.minusMonths(1);
     }
 
     public void setDate(LocalDate date) {
-        mCal = date;
+        mCalendar = date;
     }
 
     public void setFirstDayOfWeek(DayOfWeek firstDayOfWeek) {
@@ -75,7 +75,7 @@ public class CalendarAdapter {
     }
 
     public LocalDate getCalendar() {
-        return mCal;
+        return mCalendar;
     }
 
     public void addEvent(Event event) {
@@ -88,13 +88,13 @@ public class CalendarAdapter {
         mViewList.clear();
 
         // set calendar
-        int year = mCal.getYear();
-        int month = mCal.getMonthValue();
+        int year = mCalendar.getYear();
+        int month = mCalendar.getMonthValue();
 
-        mCal = LocalDate.of(year, month, 1);
+        mCalendar = LocalDate.of(year, month, 1);
 
-        int lastDayOfMonth = mCal.lengthOfMonth();
-        DayOfWeek firstDateThisMonthDayOfWeek = mCal.getDayOfWeek();
+        int lastDayOfMonth = mCalendar.lengthOfMonth();
+        DayOfWeek firstDateThisMonthDayOfWeek = mCalendar.getDayOfWeek();
 
         // generate day list
         int offset = mFirstDayOfWeek.getValue() - firstDateThisMonthDayOfWeek.getValue();
@@ -144,7 +144,7 @@ public class CalendarAdapter {
             ImageView imgEventTag = view.findViewById(R.id.img_event_tag);
 
             txtDay.setText(String.valueOf(day.getDayOfMonth()));
-            if (day.getMonth() != mCal.getMonth()) {
+            if (day.getMonthValue() < mCalendar.getMonthValue()) {
                 txtDay.setAlpha(0.3f);
             }
 
