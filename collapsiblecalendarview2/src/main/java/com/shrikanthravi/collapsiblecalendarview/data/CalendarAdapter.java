@@ -34,6 +34,8 @@ public class CalendarAdapter {
     private List<View> mViewList = new ArrayList<>();
     private List<Event> mEventList = new ArrayList<>();
 
+    private LocalDate today = LocalDate.now();
+
     public CalendarAdapter(Context context) {
         mCalendar = LocalDate.now().withDayOfMonth(1);
         mInflater = LayoutInflater.from(context);
@@ -144,7 +146,7 @@ public class CalendarAdapter {
             ImageView imgEventTag = view.findViewById(R.id.img_event_tag);
 
             txtDay.setText(String.valueOf(day.getDayOfMonth()));
-            if (day.getMonthValue() < mCalendar.getMonthValue()) {
+            if (day.isBefore(today)) {
                 txtDay.setAlpha(0.3f);
             }
 

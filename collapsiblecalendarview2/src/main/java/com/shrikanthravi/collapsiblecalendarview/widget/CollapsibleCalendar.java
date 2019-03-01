@@ -223,12 +223,7 @@ public class CollapsibleCalendar extends UICalendar {
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         1));
                 view.setOnTouchListener(getSwipeTouchListener());
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onItemClicked(v, mAdapter.getItem(position));
-                    }
-                });
+                view.setOnClickListener(v -> onItemClicked(v, mAdapter.getItem(position)));
                 rowCurrent.addView(view);
             }
 
@@ -450,13 +445,7 @@ public class CollapsibleCalendar extends UICalendar {
             mScrollViewBody.getLayoutParams().height = targetHeight;
             mScrollViewBody.requestLayout();
 
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mScrollViewBody.smoothScrollTo(0, topHeight);
-                }
-            });
-
+            mHandler.post(() -> mScrollViewBody.smoothScrollTo(0, topHeight));
 
             if (mListener != null) {
                 mListener.onWeekChange(mCurrentWeekIndex);
