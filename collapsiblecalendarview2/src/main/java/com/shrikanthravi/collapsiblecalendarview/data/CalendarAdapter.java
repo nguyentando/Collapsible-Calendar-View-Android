@@ -24,7 +24,8 @@ import static org.threeten.bp.Month.JANUARY;
  */
 
 public class CalendarAdapter {
-    private DayOfWeek mFirstDayOfWeek = DayOfWeek.MONDAY;
+
+    private DayOfWeek mFirstDayOfWeek = LocalDate.now().getDayOfWeek();
     private LocalDate mCal;
     private LayoutInflater mInflater;
     private int mEventDotSize = UICalendar.EVENT_DOT_BIG;
@@ -114,6 +115,7 @@ public class CalendarAdapter {
                 }
                 LocalDate tempCal = LocalDate.of(numYear, numMonth, 1);
                 numDay = tempCal.lengthOfMonth() + i;
+
             } else if (i > lastDayOfMonth) { // next month
                 if (month == DECEMBER.getValue()) {
                     numYear = year + 1;
@@ -123,7 +125,8 @@ public class CalendarAdapter {
                     numMonth = month + 1;
                 }
                 numDay = i - lastDayOfMonth;
-            } else {
+
+            } else { // this month
                 numYear = year;
                 numMonth = month;
                 numDay = i;

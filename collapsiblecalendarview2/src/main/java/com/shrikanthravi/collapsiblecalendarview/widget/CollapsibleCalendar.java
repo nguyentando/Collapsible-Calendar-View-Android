@@ -241,13 +241,13 @@ public class CollapsibleCalendar extends UICalendar {
         if (getSelectedItemPosition() != -1) {
             View view = mAdapter.getView(getSelectedItemPosition());
             TableRow row = (TableRow) view.getParent();
-
             return mTableBody.indexOfChild(row);
+
         } else if (getTodayItemPosition() != -1) {
             View view = mAdapter.getView(getTodayItemPosition());
             TableRow row = (TableRow) view.getParent();
-
             return mTableBody.indexOfChild(row);
+
         } else {
             return 0;
         }

@@ -52,7 +52,7 @@ public abstract class UICalendar extends LinearLayout {
 
     // Attributes
     private boolean mShowWeek = true;
-    private DayOfWeek mFirstDayOfWeek = DayOfWeek.SUNDAY;
+    private DayOfWeek mFirstDayOfWeek = LocalDate.now().getDayOfWeek();
     private int mState = STATE_COLLAPSED;
 
     private int mTextColor = Color.BLACK;
