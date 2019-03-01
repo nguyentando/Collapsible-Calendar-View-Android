@@ -168,6 +168,7 @@ public class CollapsibleCalendar extends UICalendar {
     protected void reload() {
         if (mAdapter != null) {
             mAdapter.setEventDotSize(getEventDotSize());
+            mAdapter.setFirstDayOfWeek(getFirstDayOfWeek());
             mAdapter.refresh();
 
             // reset UI

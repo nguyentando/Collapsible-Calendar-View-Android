@@ -265,12 +265,12 @@ public abstract class UICalendar extends LinearLayout {
         mLayoutRoot.setBackgroundColor(mPrimaryColor);
     }
 
-    private void setEventColor(int eventColor) {
+    public void setEventColor(int eventColor) {
         mEventColor = eventColor;
         redraw();
     }
 
-    private void setEventDotSize(int eventDotSize) {
+    public void setEventDotSize(int eventDotSize) {
         mEventDotSize = eventDotSize;
         redraw();
     }

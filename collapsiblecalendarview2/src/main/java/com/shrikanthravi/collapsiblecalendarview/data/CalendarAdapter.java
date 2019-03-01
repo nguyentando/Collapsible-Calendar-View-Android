@@ -24,14 +24,14 @@ import static org.threeten.bp.Month.JANUARY;
  */
 
 public class CalendarAdapter {
-    private DayOfWeek      mFirstDayOfWeek = DayOfWeek.MONDAY;
-    private LocalDate      mCal;
+    private DayOfWeek mFirstDayOfWeek = DayOfWeek.MONDAY;
+    private LocalDate mCal;
     private LayoutInflater mInflater;
-    private int            mEventDotSize   = UICalendar.EVENT_DOT_BIG;
+    private int mEventDotSize = UICalendar.EVENT_DOT_BIG;
 
-    private List<LocalDate> mItemList  = new ArrayList<>();
-    private List<View>      mViewList  = new ArrayList<>();
-    private List<Event>     mEventList = new ArrayList<>();
+    private List<LocalDate> mItemList = new ArrayList<>();
+    private List<View> mViewList = new ArrayList<>();
+    private List<Event> mEventList = new ArrayList<>();
 
     public CalendarAdapter(Context context) {
         mCal = LocalDate.now().withDayOfMonth(1);
@@ -93,13 +93,13 @@ public class CalendarAdapter {
         mCal = LocalDate.of(year, month, 1);
 
         int lastDayOfMonth = mCal.lengthOfMonth();
-        DayOfWeek firstDayOfWeek = mCal.getDayOfWeek();
+        DayOfWeek firstDateThisMonthDayOfWeek = mCal.getDayOfWeek();
 
         // generate day list
-        int offset = 0 - (firstDayOfWeek.getValue() - mFirstDayOfWeek.getValue());
+        int offset = mFirstDayOfWeek.getValue() - firstDateThisMonthDayOfWeek.getValue();
         if (offset > 0) offset += -7;
         int length = (int) Math.ceil((float) (lastDayOfMonth - offset) / 7) * 7;
-        for (int i = offset; i < length + offset; i++) {
+        for (int i = offset + 1; i <= length + offset; i++) {
             int numYear;
             int numMonth;
             int numDay;
@@ -120,7 +120,7 @@ public class CalendarAdapter {
                     numMonth = JANUARY.getValue();
                 } else {
                     numYear = year;
-                    numMonth = month;
+                    numMonth = month + 1;
                 }
                 numDay = i - lastDayOfMonth;
             } else {
